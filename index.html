@@ -114,42 +114,23 @@ https://www.tooplate.com/view/2097-pop
                                                 </div>
                                                 <div class="row mb-3">
                                                     <div class="col-12">
-                                                        <p>Buy the eggs you have been waiting for ever since you discovered King Royalty. Full of vitamin e, free to roam with fresh air, and clean eggs from bottom to mouth.</p>
+                                                        <p>Buy local, free range eggs. Simply click the "Complete your purchase" button below to complete your purchase. All purchases are secure and are handled by Square.</p>
+                                                        <p>We might be experiencing stock issues.</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="p-sm-4 p-2 tm-img-container">
-                                                            <div style="
-                                                            overflow: auto;
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            justify-content: flex-end;
-                                                            align-items: center;
-                                                            width: 259px;
-                                                            background: #f17000;
-                                                            border: 1px solid rgba(0, 0, 0, 0.1);
-                                                            box-shadow: -2px 10px 5px rgba(0, 0, 0, 0);
-                                                            border-radius: 10px;
-                                                            font-family: SQ Market, SQ Market, Helvetica, Arial, sans-serif;
-                                                            ">
-                                                            <div style="padding: 20px;">
-                                                                <p style="
-                                                              font-size: 18px;
-                                                              line-height: 20px;
-                                                            ">$8 King Royalty Eggs</p>
-                                                              <a target="_blank" href="https://square.link/u/alpc9gmG?src=embed" style="
-                                                              display: inline-block;
-                                                              font-size: 18px;
-                                                              line-height: 48px;
-                                                              height: 48px;
-                                                              color: #ffffff;
-                                                              min-width: 212px;
-                                                              background-color: #006aff;
-                                                              text-align: center;
-                                                              box-shadow: 0 0 0 1px rgba(0,0,0,.1) inset;
-                                                              border-radius: 6px;
-                                                            ">Buy now</a>
+                                                            <script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1Rz3foKPvBM0Ul88HqNgZdRe"
+  publishable-key="pk_live_51MSul8KPvBM0Ul88ZgBQE2YyK1mUPFgZ4H42nR8TG9NJn1PbX1eJpI28Or0nlEl7aRctpho9Ps1vkVt0uKjkzgMk00HSYd76FY"
+>
+</stripe-buy-button>
+                                                                </div>
                                                             </div>
                                                           </div>
                                                         </div>  
@@ -344,6 +325,188 @@ function submitForm(event) {
   return false;
 }
 
-</script>    
+                // When the chicken reaches its destination, it drops an egg
+                if (this.distanceTraveled >= this.distanceToEnd) {
+                    fallingEggs.push(new FallingEgg(this.endX, this.endY));
+                    chickens.splice(chickens.indexOf(this), 1);
+                } else {
+                    this.x += vx;
+                    this.y += vy;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                const wobbleX = Math.cos(animationFrame * this.wobbleSpeed) * 10;
+                const wobbleY = Math.sin(animationFrame * this.wobbleSpeed) * 10;
+                ctx.translate(this.x + wobbleX, this.y + wobbleY);
+                ctx.rotate(this.angle + Math.PI / 2);
+                ctx.font = '30px serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('🐔', 0, 0);
+                ctx.restore();
+            }
+        }
+
+        // --- FallingEgg Class ---
+        class FallingEgg {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vy = 0; // Vertical velocity
+                this.gravity = 0.4;
+                this.life = 25; // Frames to fall before breaking
+            }
+
+            update() {
+                this.life--;
+                this.y += this.vy;
+                this.vy += this.gravity;
+
+                // When the egg's life is over, it explodes
+                if (this.life <= 0) {
+                    createEggExplosion(this.x, this.y);
+                    fallingEggs.splice(fallingEggs.indexOf(this), 1);
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.font = '25px serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('🥚', 0, 0);
+                ctx.restore();
+            }
+        }
+
+        // --- Particle Class (for yolk, white, and shell) ---
+        class Particle {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type;
+                this.angle = random(0, Math.PI * 2);
+                this.speed = random(1, 10);
+                this.gravity = 0.5;
+                this.alpha = 1;
+
+                // Customize particles based on their type
+                switch (this.type) {
+                    case 'yolk':
+                        this.friction = 0.97;
+                        this.color = `hsl(${random(40, 60)}, 100%, ${random(50, 80)}%)`;
+                        this.size = random(3, 6);
+                        this.decay = random(0.01, 0.02);
+                        break;
+                    case 'white':
+                        this.friction = 0.98; // Gooier
+                        this.color = `hsla(0, 0%, 100%, ${random(0.3, 0.6)})`;
+                        this.size = random(4, 8);
+                        this.decay = random(0.01, 0.015);
+                        break;
+                    case 'shell':
+                        this.friction = 0.95; // Less friction
+                        this.color = `hsl(35, 20%, ${random(70, 85)}%)`;
+                        this.size = random(1, 3);
+                        this.gravity = 0.8; // Heavier
+                        this.decay = random(0.02, 0.03);
+                        break;
+                }
+            }
+
+            update() {
+                this.speed *= this.friction;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed + this.gravity;
+                this.alpha -= this.decay;
+
+                if (this.alpha <= this.decay) {
+                    particles.splice(particles.indexOf(this), 1);
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // --- Create Egg Explosion ---
+        function createEggExplosion(x, y) {
+            const particleCount = 200; // More particles for a bigger mess
+            for (let i = 0; i < particleCount; i++) {
+                const rand = Math.random();
+                let type;
+                if (rand < 0.5) {
+                    type = 'yolk';
+                } else if (rand < 0.9) {
+                    type = 'white';
+                } else {
+                    type = 'shell';
+                }
+                particles.push(new Particle(x, y, type));
+            }
+        }
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+            animationFrame++;
+
+            ctx.fillStyle = 'rgba(135, 206, 235, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            [chickens, fallingEggs, particles].forEach(arr => 
+                arr.forEach(item => {
+                    item.update();
+                    item.draw();
+                })
+            );
+        }
+
+        function spawnChicken(endX, endY) {
+            const side = Math.floor(random(0, 2));
+            const startX = side === 0 ? -50 : canvas.width + 50;
+            const startY = random(0, canvas.height);
+            chickens.push(new Chicken(startX, startY, endX, endY));
+        }
+
+        // --- Event Listeners ---
+        window.addEventListener('click', e => {
+            // Prevent spam button click from also spawning a single chicken
+            if (e.target.id === 'spam-button') return;
+            spawnChicken(e.clientX, e.clientY);
+        });
+        
+        // Add the spam button functionality
+        const spamButton = document.getElementById('spam-button');
+        if (spamButton) {
+            spamButton.addEventListener('click', () => {
+                for (let i = 0; i < 70; i++) {
+                    const x = random(0, canvas.width);
+                    const y = random(0, canvas.height);
+                    // Directly create a falling egg at a random location
+                    fallingEggs.push(new FallingEgg(x, y));
+                }
+            });
+        }
+
+        // Automatically spawn chickens
+        setInterval(() => {
+            const endX = random(0, canvas.width);
+            const endY = random(0, canvas.height);
+            spawnChicken(endX, endY);
+        }, 3000);
+
+        window.addEventListener('resize', resizeCanvas);
+
+        animate();
+    </script>
 </body>
 </html>
