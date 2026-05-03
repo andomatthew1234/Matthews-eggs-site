@@ -17,5 +17,8 @@ King Royalty eggs is a local chicken eggs company where the chickens are actuall
 ## ❔ Have a tip?
 * 📑 **Fill the form** at https://form.jotform.com/Magsgd/feedback.
 
+## 🖥 KR for devs
+* ⌨ **King Royalty is open source,** so you can create and tweak your own version of it!
+
 ---
 *Created by Matthew Anderson*
