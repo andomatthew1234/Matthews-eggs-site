@@ -66,11 +66,42 @@ nav a:hover{
     color:black;
 }
 
+nav a.nav-icon{
+    margin-left:auto;
+    width:46px;
+    height:46px;
+    padding:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+    background:rgba(255,215,0,0.15);
+    border:1px solid rgba(255,215,0,0.35);
+    font-size:1.2rem;
+}
+
+nav a.nav-icon:hover{
+    transform:translateY(-2px) scale(1.08);
+    background:gold;
+    color:black;
+    box-shadow:0 15px 30px rgba(255,215,0,0.25);
+}
+
+nav a.nav-icon:active{
+    transform:translateY(1px) scale(0.98);
+}
+
 /* ACTIVE LINK */
 
 nav a.active{
     background:gold;
     color:black;
+}
+
+nav a.active.nav-icon{
+    background:gold;
+    color:black;
+    box-shadow:0 15px 30px rgba(255,215,0,0.25);
 }
 
 /* PAGES */
@@ -235,6 +266,194 @@ p{
     border:1px solid rgba(255,255,255,0.12);
 }
 
+.game-list{
+    display:flex;
+    justify-content:center;
+    margin-top:2rem;
+    width:100%;
+}
+
+.game-card{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:24px;
+    padding:2rem;
+    max-width:760px;
+    width:100%;
+    box-shadow:0 20px 45px rgba(0,0,0,0.2);
+    transition:transform 0.3s ease, background 0.3s ease;
+}
+
+.game-card:hover{
+    transform:translateY(-6px);
+    background:rgba(255,255,255,0.12);
+}
+
+.game-card h3{
+    margin-bottom:1rem;
+}
+
+.game-card p{
+    color:#e8e6e3;
+}
+
+.game-card{
+    cursor:pointer;
+}
+
+.game-card span{
+    display:inline-block;
+    margin-top:1rem;
+    padding:0.65rem 1.2rem;
+    border-radius:999px;
+    background:rgba(255,215,0,0.15);
+    color:#fff;
+    transition:0.25s ease;
+}
+
+.game-card:hover span{
+    background:gold;
+    color:black;
+}
+
+.game-screen{
+    display:none;
+    width:100%;
+    max-width:900px;
+    text-align:left;
+    margin-top:2rem;
+}
+
+.game-screen.active{
+    display:block;
+}
+
+.back-icon{
+    display:inline-flex;
+    align-items:center;
+    gap:0.6rem;
+    margin-bottom:1.5rem;
+    padding:0.85rem 1.2rem;
+    background:rgba(255,255,255,0.09);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:999px;
+    color:#fff;
+    text-decoration:none;
+    cursor:pointer;
+    transition:0.25s ease;
+}
+
+.back-icon:hover{
+    background:rgba(255,255,255,0.18);
+    transform:translateY(-2px);
+}
+
+.game-area{
+    position:relative;
+    width:100%;
+    min-height:420px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+}
+
+.game-board{
+    position:relative;
+    width:100%;
+    height:420px;
+    overflow:hidden;
+}
+
+.player,
+.falling-item{
+    position:absolute;
+    transition:transform 0.1s ease;
+}
+
+.player{
+    width:70px;
+    height:70px;
+    bottom:16px;
+    left:calc(50% - 35px);
+    background:#ffd700;
+    border-radius:50% 50% 30% 30%;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.player::before{
+    content:'';
+    position:absolute;
+    top:8px;
+    left:50%;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:#fff;
+    transform:translateX(-50%);
+}
+
+.falling-item{
+    width:28px;
+    height:38px;
+    border-radius:50% 50% 35% 35%;
+    background:#fff;
+    border:3px solid #f2c94c;
+    box-shadow:0 10px 16px rgba(0,0,0,0.15);
+}
+
+.falling-item.rock{
+    width:32px;
+    height:32px;
+    border-radius:12px;
+    background:#444;
+    border:3px solid #222;
+}
+
+.game-footer{
+    margin-top:1rem;
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    color:#e8e6e3;
+}
+
+.game-footer span{
+    font-weight:600;
+}
+
+.game-message{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:1rem;
+    background:rgba(0,0,0,0.65);
+    color:white;
+    font-size:1.05rem;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease;
+}
+
+.game-message.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.game-message button{
+    padding:0.9rem 1.4rem;
+    border:none;
+    border-radius:999px;
+    background:gold;
+    color:black;
+    font-weight:700;
+    cursor:pointer;
+}
+
 .project-signature{
     margin-top:1rem;
     font-weight:600;
@@ -313,6 +532,7 @@ p{
     <a href="#" onclick="showPage('project', this)">Project</a>
     <a href="#" onclick="showPage('buy', this)">Buy</a>
     <a href="#" onclick="showPage('contact', this)">Contact</a>
+    <a href="#" onclick="showPage('games', this)" class="nav-icon" title="KR Mini games">🎮</a>
 </nav>
 
 <!-- HOME -->
@@ -375,6 +595,48 @@ p{
 
         <div class="project-image">
             <img src="img/team.jpg" alt="King Royalty team" />
+        </div>
+    </div>
+
+</div>
+
+<!-- GAMES -->
+
+<div id="games" class="page">
+
+    <h2>KR Mini games</h2>
+
+    <p>
+        Choose a fun mini-game from the list below. More games are coming soon!
+    </p>
+
+    <div class="game-list">
+        <div class="game-card" onclick="launchGame()">
+            <h3>Chicken Dash</h3>
+            <p>
+                Dash along the coop, catch eggs, and avoid falling rocks.
+                Click to launch the first King Royalty mini game.
+            </p>
+            <span>Play Chicken Dash</span>
+        </div>
+    </div>
+
+    <div class="game-screen" id="chickenDashScreen">
+        <button class="back-icon" onclick="closeGame()">← Back to games</button>
+        <div class="game-area">
+            <div class="game-board" id="gameBoard">
+                <div class="player" id="player"></div>
+                <div class="game-message" id="gameMessage">
+                    <strong id="gameResultTitle">Ready to Play!</strong>
+                    <p id="gameResultText">Use arrow keys or WASD to move and catch eggs.</p>
+                    <button id="gameActionButton" onclick="startGame()">Start</button>
+                </div>
+            </div>
+        </div>
+        <audio id="gameAudio" src="img/audio/dash.mp3" loop></audio>
+        <div class="game-footer">
+            <span>Score: <strong id="dashScore">0</strong></span>
+            <span>Missed: <strong id="dashMissed">0</strong></span>
         </div>
     </div>
 
@@ -477,7 +739,190 @@ function showPage(id, el){
         el.classList.add('active');
     }
 
+    if(id !== 'games'){
+        closeGame();
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
+let gameInterval = null;
+let spawnInterval = null;
+let gameState = {
+    score: 0,
+    missed: 0,
+    running: false,
+    items: [],
+    playerX: 50,
+    leftPressed: false,
+    rightPressed: false,
+};
+
+function launchGame(){
+    document.querySelector('.game-list').style.display = 'none';
+    const screen = document.getElementById('chickenDashScreen');
+    screen.classList.add('active');
+    gameState.leftPressed = false;
+    gameState.rightPressed = false;
+    showMessage('Ready to Play!', 'Use arrow keys or WASD to move and catch eggs.', false);
+    resetGame();
+}
+
+function closeGame(){
+    const screen = document.getElementById('chickenDashScreen');
+    if(screen){
+        screen.classList.remove('active');
+    }
+    document.querySelector('.game-list').style.display = 'flex';
+    stopGame();    document.getElementById('gameAudio').pause();}
+
+function resetGame(){
+    stopGame();
+    gameState.score = 0;
+    gameState.missed = 0;
+    gameState.running = false;
+    gameState.playerX = 50;
+    gameState.leftPressed = false;
+    gameState.rightPressed = false;
+    updateHud();
+    clearBoard();
+    document.getElementById('gameAudio').pause();
+    showMessage('Ready to Play!', 'Press Start to begin Chicken Dash.', true);
+}
+
+function showMessage(title, message, showButton){
+    const container = document.getElementById('gameMessage');
+    container.classList.add('show');
+    document.getElementById('gameResultTitle').textContent = title;
+    document.getElementById('gameResultText').textContent = message;
+    container.querySelector('button').style.display = showButton ? 'inline-flex' : 'none';
+}
+
+function hideMessage(){
+    const container = document.getElementById('gameMessage');
+    container.classList.remove('show');
+}
+
+function startGame(){
+    if(gameState.running) return;
+    gameState.running = true;
+    hideMessage();
+    clearBoard();
+    movePlayer(0);
+
+    gameInterval = setInterval(updateGame, 20);
+    spawnInterval = setInterval(spawnItem, 700);
+    window.addEventListener('keydown', handleInput);
+    window.addEventListener('keyup', handleKeyUp);    document.getElementById('gameAudio').play();}
+
+function stopGame(){
+    gameState.running = false;
+    clearInterval(gameInterval);
+    clearInterval(spawnInterval);
+    window.removeEventListener('keydown', handleInput);    window.removeEventListener('keyup', handleKeyUp);
+    document.getElementById('gameAudio').pause();}
+
+function handleInput(event){
+    if(!gameState.running) return;
+    if(event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'A'){
+        gameState.leftPressed = true;
+    }
+    if(event.key === 'ArrowRight' || event.key === 'd' || event.key === 'D'){
+        gameState.rightPressed = true;
+    }
+}
+
+function handleKeyUp(event){
+    if(event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'A'){
+        gameState.leftPressed = false;
+    }
+    if(event.key === 'ArrowRight' || event.key === 'd' || event.key === 'D'){
+        gameState.rightPressed = false;
+    }
+}
+
+function movePlayer(delta){
+    const board = document.getElementById('gameBoard');
+    const max = board.clientWidth - 70;
+    gameState.playerX = Math.min(max, Math.max(0, gameState.playerX + delta));
+    const player = document.getElementById('player');
+    player.style.left = gameState.playerX + 'px';
+}
+
+function updateHud(){
+    document.getElementById('dashScore').textContent = gameState.score;
+    document.getElementById('dashMissed').textContent = gameState.missed;
+}
+
+function clearBoard(){
+    const board = document.getElementById('gameBoard');
+    gameState.items.forEach(item => item.element.remove());
+    gameState.items = [];
+}
+
+function spawnItem(){
+    const board = document.getElementById('gameBoard');
+    const xPos = Math.random() * (board.clientWidth - 40);
+    const isRock = Math.random() < 0.24;
+    const element = document.createElement('div');
+    element.className = 'falling-item' + (isRock ? ' rock' : '');
+    element.style.left = xPos + 'px';
+    element.style.top = '-50px';
+
+    board.appendChild(element);
+    gameState.items.push({ element, top: -50, type: isRock ? 'rock' : 'egg' });
+}
+
+function updateGame(){    // Handle continuous movement
+    if(gameState.leftPressed){
+        movePlayer(-10);
+    }
+    if(gameState.rightPressed){
+        movePlayer(10);
+    }
+    const board = document.getElementById('gameBoard');
+    const playerRect = document.getElementById('player').getBoundingClientRect();
+    const boardRect = board.getBoundingClientRect();
+    const newItems = [];
+
+    gameState.items.forEach(item => {
+        item.top += item.type === 'rock' ? 6 : 5;
+        item.element.style.top = item.top + 'px';
+        const itemRect = item.element.getBoundingClientRect();
+
+        if(item.top > board.clientHeight){
+            if(item.type === 'egg'){
+                gameState.missed += 1;
+                updateHud();
+                if(gameState.missed >= 3){
+                    endGame('Game over!', 'You missed too many eggs. Try again!');
+                }
+            }
+            item.element.remove();
+            return;
+        }
+
+        if(itemRect.left < playerRect.right && itemRect.right > playerRect.left && itemRect.bottom > playerRect.top && itemRect.top < playerRect.bottom){
+            if(item.type === 'egg'){
+                gameState.score += 1;
+                updateHud();
+                item.element.remove();
+            } else {
+                endGame('Oh no!', 'A rock hit the coop. Game over.');
+                item.element.remove();
+            }
+            return;
+        }
+
+        newItems.push(item);
+    });
+
+    gameState.items = newItems;
+}
+
+function endGame(title, message){
+    stopGame();
+    showMessage(title, message, true);
 }
 
 </script>
