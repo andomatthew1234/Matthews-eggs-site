@@ -1,0 +1,21 @@
+# 🥚 King Royalty eggs website
+**My personal eggs company website.**
+
+King Royalty eggs is a local chicken eggs company where the chickens are actually treated like royalty.
+
+## Website features
+* 📃 **Page navigation** Navigate pages easily with the menu bar.
+* 🌊 **Redesigned for perfection** Themed liquid glass design
+* 💻 **Simple and lightweight** One .html file design means it loads fast, and stays fast.
+
+## 🛠️ Tech Stack
+* **Frontend:** HTML5, CSS3
+
+## 🚀 Let's get started
+1. Head to kingroyaltyeggs.com to view the latest release.
+
+## ❔ Have a tip?
+* 📑 **Fill the form** at https://form.jotform.com/Magsgd/feedback.
+
+---
+*Created by Matthew Anderson*
