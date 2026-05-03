@@ -22,7 +22,7 @@ body{
     font-family:'Poppins',sans-serif;
     background:url('img/pop-bg.jpg') center/cover no-repeat fixed;
     color:white;
-    overflow:hidden;
+    overflow-x:hidden;
 }
 
 /* Overlay */
@@ -129,7 +129,7 @@ p{
     margin-top:2rem;
     display:inline-block;
 
-    background:gold;
+    background:#ffd700;
     color:black;
 
     padding:0.9rem 1.8rem;
@@ -159,7 +159,9 @@ p{
     background:rgba(255,255,255,0.08);
     padding:1.5rem;
     border-radius:20px;
-    max-width:260px;
+    width:100%;
+    max-width:320px;
+    min-width:240px;
     backdrop-filter:blur(10px);
 
     border:1px solid rgba(255,255,255,0.08);
@@ -170,6 +172,16 @@ p{
 .card:hover{
     transform:translateY(-5px);
     background:rgba(255,255,255,0.12);
+}
+
+.card-icon{
+    font-size:2.5rem;
+    margin-bottom:1rem;
+}
+
+.stripe-card-action{
+    margin-top:1.5rem;
+    text-align:center;
 }
 
 /* BUY BOX */
@@ -186,7 +198,7 @@ p{
 
 /* MOBILE */
 
-@media(max-width:700px){
+@media(max-width:900px){
 
     nav{
         gap:0.5rem;
@@ -200,10 +212,43 @@ p{
 
     .cards{
         gap:1rem;
+        justify-content:center;
     }
 
     .card{
         max-width:100%;
+        min-width:auto;
+    }
+
+    .buy-box{
+        padding:1.5rem;
+    }
+
+    .page{
+        padding:5rem 1.2rem 2rem;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .cards{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .card{
+        width:100%;
+        max-width:420px;
+    }
+
+    .card-icon{
+        font-size:2rem;
+    }
+
+    .btn{
+        width:100%;
+        box-sizing:border-box;
     }
 
 }
@@ -291,17 +336,51 @@ p{
     <h2>Buy</h2>
 
     <p>
-        Secure checkout powered by Stripe.
+        Secure checkout and purchasing support for King Royalty Eggs.
     </p>
 
     <div class="buy-box">
 
-        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+        <div class="cards">
 
-        <stripe-buy-button
-            buy-button-id="buy_btn_1Rz3foKPvBM0Ul88HqNgZdRe"
-            publishable-key="pk_live_51MSul8KPvBM0Ul88ZgBQE2YyK1mUPFgZ4H42nR8TG9NJn1PbX1eJpI28Or0nlEl7aRctpho9Ps1vkVt0uKjkzgMk00HSYd76FY">
-        </stripe-buy-button>
+            <div class="card">
+                <div class="card-icon">💳</div>
+                <h3>Pay for some eggs on Stripe.</h3>
+                <p>
+                    Make your secure purchase to buy eggs with Stripe.
+                </p>
+                <div class="stripe-card-action">
+                    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+                    <stripe-buy-button
+                        buy-button-id="buy_btn_1Rz3foKPvBM0Ul88HqNgZdRe"
+                        publishable-key="pk_live_51MSul8KPvBM0Ul88ZgBQE2YyK1mUPFgZ4H42nR8TG9NJn1PbX1eJpI28Or0nlEl7aRctpho9Ps1vkVt0uKjkzgMk00HSYd76FY">
+                    </stripe-buy-button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <h3>Contact us about setting up a routine purchase</h3>
+                <p>
+                    Want to start a routine purchase? Start here.
+                </p>
+                <a class="btn" href="https://form.jotform.com/Magsgd/routine" target="_blank" rel="noopener">
+                    Complete the form
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🆘</div>
+                <h3>Having issues?</h3>
+                <p>
+                    We'll try to help.
+                </p>
+                <a class="btn" href="https://form.jotform.com/Magsgd/feedback" target="_blank" rel="noopener">
+                    Tell us about it
+                </a>
+            </div>
+
+        </div>
 
     </div>
 

@@ -20,5 +20,7 @@ King Royalty eggs is a local chicken eggs company where the chickens are actuall
 ## 🖥 KR for devs
 * ⌨ **King Royalty is open source,** so you can create and tweak your own version of it!
 
+<img src="https://github.com/andomatthew1234/Matthews-eggs-site/blob/master/img/favicon.png?raw=true" width="260" height="260" alt="Logo">
+
 ---
 *Created by Matthew Anderson*
