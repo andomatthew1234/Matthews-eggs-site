@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - King Royalty Eggs</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: url('img/pop-bg.jpg') center center/cover no-repeat fixed;
+      position: relative;
+    }
+
+    /* Dark overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Navigation */
+    nav {
+      position: relative;
+      z-index: 10;
+      background: rgba(0,0,0,0.6);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      backdrop-filter: blur(5px);
+      border-bottom: 2px solid rgba(218,165,32,0.5);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    nav a:hover {
+      background: rgba(218,165,32,0.7);
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    nav a.active {
+      background: rgba(218,165,32,0.9);
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* Page content */
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    p {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#buy">Buy</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+  </nav>
+
+  <div class="content">
+    <h1>Contact King Royalty Eggs</h1>
+    <p>Coming soon...</p>
+  </div>
+</body>
+</html>

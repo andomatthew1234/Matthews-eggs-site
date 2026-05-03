@@ -1,69 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>King Royalty Eggs - Buy Now</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: url('img/pop-bg.jpg') center center/cover no-repeat;
-      position: relative;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>King Royalty Eggs</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:url('img/pop-bg.jpg') center/cover no-repeat fixed;
+    color:white;
+    overflow:hidden;
+}
+
+/* Overlay */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:0;
+}
+
+/* NAV */
+
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    padding:1rem;
+
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,215,0,0.3);
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:0.6rem 1.2rem;
+    border-radius:999px;
+    transition:0.3s;
+}
+
+nav a:hover{
+    background:gold;
+    color:black;
+}
+
+/* ACTIVE LINK */
+
+nav a.active{
+    background:gold;
+    color:black;
+}
+
+/* PAGES */
+
+.page{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:6rem 2rem 2rem;
+
+    opacity:0;
+    pointer-events:none;
+    transform:scale(1.02);
+
+    transition:0.4s ease;
+}
+
+.page.active{
+    opacity:1;
+    pointer-events:auto;
+    transform:scale(1);
+}
+
+/* TEXT */
+
+h1{
+    font-size:clamp(2.5rem,6vw,5rem);
+    margin-bottom:1rem;
+}
+
+h2{
+    font-size:2.5rem;
+    margin-bottom:1rem;
+}
+
+h3{
+    margin-bottom:0.8rem;
+    font-size:1.2rem;
+}
+
+p{
+    max-width:700px;
+    line-height:1.7;
+    color:#ddd;
+}
+
+/* BUTTON */
+
+.btn{
+    margin-top:2rem;
+    display:inline-block;
+
+    background:gold;
+    color:black;
+
+    padding:0.9rem 1.8rem;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:600;
+
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+/* CARD ROW */
+
+.cards{
+    display:flex;
+    gap:1.5rem;
+    margin-top:3rem;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    padding:1.5rem;
+    border-radius:20px;
+    max-width:260px;
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    background:rgba(255,255,255,0.12);
+}
+
+/* BUY BOX */
+
+.buy-box{
+    margin-top:2rem;
+    background:rgba(255,255,255,0.08);
+    padding:2rem;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    nav{
+        gap:0.5rem;
+        padding:0.8rem;
     }
 
-    /* Dark overlay */
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      z-index: 0;
+    nav a{
+        padding:0.5rem 0.9rem;
+        font-size:0.9rem;
     }
 
-    /* Page content */
-    .content {
-      position: relative;
-      z-index: 1;
-      padding: 2rem;
-      max-width: 600px;
+    .cards{
+        gap:1rem;
     }
 
-    h1 {
-      margin-bottom: 1rem;
-      font-size: 2rem;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    .card{
+        max-width:100%;
     }
 
-    p {
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.25);
-    }
-  </style>
+}
+
+</style>
 </head>
 <body>
-  <div class="overlay"></div>
 
-  <div class="content">
-    <h1>Buy King Royalty Eggs</h1>
-    <p>Fresh, ethical, and royally cared for. From farm to plate.</p>
+<div class="overlay"></div>
 
-    <!-- Stripe Buy Button Embed -->
-    <div id="stripe-container">
-      <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-      <stripe-buy-button
-        buy-button-id="buy_btn_1Rz3foKPvBM0Ul88HqNgZdRe"
-        publishable-key="pk_live_51MSul8KPvBM0Ul88ZgBQE2YyK1mUPFgZ4H42nR8TG9NJn1PbX1eJpI28Or0nlEl7aRctpho9Ps1vkVt0uKjkzgMk00HSYd76FY"
-      >
-      </stripe-buy-button>
+<nav>
+    <a href="#" onclick="showPage('home', this)" class="active">Home</a>
+    <a href="#" onclick="showPage('about', this)">About</a>
+    <a href="#" onclick="showPage('buy', this)">Buy</a>
+    <a href="#" onclick="showPage('contact', this)">Contact</a>
+</nav>
+
+<!-- HOME -->
+
+<div id="home" class="page active">
+
+    <h1>King Royalty Eggs</h1>
+
+    <p>
+        Fresh, ethical, and carefully produced eggs.
+        Quality you can trust from farm to table.
+    </p>
+
+    <a class="btn" onclick="showPage('buy')">
+        Buy Now
+    </a>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>From farm to plate.</h3>
+            <p>
+                Eggs are fresh and collected daily - ready for your meal.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Chickens treated like Royalty.</h3>
+            <p>
+                All eggs are free range, free to roam.
+                Fed fresh food scraps daily.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Local</h3>
+            <p>
+                All supported and managed by me, Matthew Anderson.
+            </p>
+        </div>
+
     </div>
-  </div>
+
+</div>
+
+<!-- ABOUT -->
+
+<div id="about" class="page">
+
+    <h2>About</h2>
+
+    <p>
+        King Royalty Eggs focuses on delivering high-quality eggs with strong attention to care,
+        consistency, and production standards.
+    </p>
+
+    <br>
+
+    <p>
+        Every egg is handled with care to ensure freshness, ethical treatment,
+        and reliable quality without cutting corners.
+    </p>
+
+</div>
+
+<!-- BUY -->
+
+<div id="buy" class="page">
+
+    <h2>Buy</h2>
+
+    <p>
+        Secure checkout powered by Stripe.
+    </p>
+
+    <div class="buy-box">
+
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
+        <stripe-buy-button
+            buy-button-id="buy_btn_1Rz3foKPvBM0Ul88HqNgZdRe"
+            publishable-key="pk_live_51MSul8KPvBM0Ul88ZgBQE2YyK1mUPFgZ4H42nR8TG9NJn1PbX1eJpI28Or0nlEl7aRctpho9Ps1vkVt0uKjkzgMk00HSYd76FY">
+        </stripe-buy-button>
+
+    </div>
+
+</div>
+
+<!-- CONTACT -->
+
+<div id="contact" class="page">
+
+    <h2>Have a complaint - or a tip?</h2>
+
+    <p>
+        We're always open to suggestions on making your next order egg-licous!
+    </p>
+
+    <a class="btn" href="mailto:matthew@andomail.com">
+        Email me
+    </a>
+
+    <a class="btn" href="https://form.jotform.com/Magsgd/feedback" target="_blank">
+        Fill the form
+    </a>
+
+</div>
+
+<script>
+
+function showPage(id, el){
+
+    document.querySelectorAll('.page').forEach(page=>{
+        page.classList.remove('active');
+    });
+
+    document.getElementById(id).classList.add('active');
+
+    document.querySelectorAll('nav a').forEach(link=>{
+        link.classList.remove('active');
+    });
+
+    if(el){
+        el.classList.add('active');
+    }
+
+}
+
+</script>
+
 </body>
 </html>
