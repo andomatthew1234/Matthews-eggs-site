@@ -413,7 +413,9 @@ p{
 
 .game-list{
     display:flex;
-    justify-content:center;
+    flex-direction:column;
+    align-items:center;
+    gap:1.5rem;
     margin-top:2rem;
     width:100%;
 }
@@ -427,11 +429,22 @@ p{
     width:100%;
     box-shadow:0 20px 45px rgba(0,0,0,0.2);
     transition:transform 0.3s ease, background 0.3s ease;
+    cursor:pointer;
 }
 
 .game-card:hover{
     transform:translateY(-6px);
     background:rgba(255,255,255,0.12);
+}
+
+.game-card.locked {
+    opacity: 0.5;
+    filter: grayscale(1);
+    cursor: not-allowed;
+}
+
+.game-card.locked:hover {
+    transform: none;
 }
 
 .game-card h3{
@@ -440,10 +453,6 @@ p{
 
 .game-card p{
     color:#e8e6e3;
-}
-
-.game-card{
-    cursor:pointer;
 }
 
 .game-card span{
@@ -459,6 +468,10 @@ p{
 .game-card:hover span{
     background:gold;
     color:black;
+}
+
+.game-card.locked span {
+    background: rgba(255,255,255,0.1);
 }
 
 .game-screen{
@@ -807,6 +820,7 @@ p{
     </div>
 
     <div class="game-list">
+        <!-- BASE GAME -->
         <div class="game-card" onclick="launchGame()">
             <h3>Chicken Dash</h3>
             <p>
@@ -814,6 +828,15 @@ p{
                 Click to launch the first King Royalty mini game.
             </p>
             <span>Play Chicken Dash</span>
+        </div>
+
+        <!-- UNLOCKABLE GAME -->
+        <div id="lockedGameCard" class="game-card locked" onclick="launchSecretGame()">
+            <h3>👑 Royal Coop Escape</h3>
+            <p id="secretGameDesc">
+                Locked: Reach 'Try-outer' status (1 purchase) to unlock this exclusive game!
+            </p>
+            <span id="secretGameBtn">Unlock at 1 Purchase</span>
         </div>
     </div>
 
@@ -979,6 +1002,17 @@ function updatePurchaseDisplays(){
             : 'Successful purchases recorded: 0';
     }
 
+    // Secret Game Card Update
+    const secretCard = document.getElementById('lockedGameCard');
+    const secretDesc = document.getElementById('secretGameDesc');
+    const secretBtn = document.getElementById('secretGameBtn');
+
+    if(count >= 1) {
+        secretCard.classList.remove('locked');
+        secretDesc.textContent = "You've unlocked the Royal Coop Escape! Click below to enter the secret coop.";
+        secretBtn.textContent = "Play Escape Game";
+    }
+
     // Dashboard Updates
     const statusBadge = document.getElementById('statusBadgeTop');
     const scoreBig = document.getElementById('loyaltyScoreBig');
@@ -1059,6 +1093,16 @@ function launchGame(){
     resetGame();
 }
 
+function launchSecretGame() {
+    const count = getPurchaseCount();
+    if(count >= 1) {
+        // Launches the separate HTML file
+        window.open('secret_game.html', '_blank');
+    } else {
+        alert("Wait! This game is for Try-outers and higher. Make a purchase to unlock!");
+    }
+}
+
 function closeGame(){
     const screen = document.getElementById('chickenDashScreen');
     if(screen){
@@ -1136,6 +1180,7 @@ function handleKeyUp(event){
 
 function movePlayer(delta){
     const board = document.getElementById('gameBoard');
+    if (!board) return;
     const max = board.clientWidth - 70;
     gameState.playerX = Math.min(max, Math.max(0, gameState.playerX + delta));
     const player = document.getElementById('player');
