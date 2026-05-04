@@ -7,6 +7,7 @@ King Royalty eggs is a local chicken eggs company where the chickens are actuall
 * 📃 **Page navigation** Navigate pages easily with the menu bar.
 * 🌊 **Redesigned for perfection** Themed liquid glass design
 * 💻 **Simple and lightweight** One .html file design means it loads fast, and stays fast.
+* 🎮 **Mini games** because... why not i guess? Press the Controller icon to view the current libary of games.
 
 ## 🛠️ Tech Stack
 * **Frontend:** HTML5, CSS3

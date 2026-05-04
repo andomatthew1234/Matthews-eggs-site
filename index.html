@@ -266,6 +266,19 @@ p{
     border:1px solid rgba(255,255,255,0.12);
 }
 
+.purchase-summary{
+    margin-top:1.2rem;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,215,0,0.25);
+    border-radius:18px;
+    padding:1rem 1.2rem;
+    color:#fff;
+    font-weight:600;
+    width:100%;
+    max-width:760px;
+    text-align:center;
+}
+
 .game-list{
     display:flex;
     justify-content:center;
@@ -530,6 +543,7 @@ p{
 <nav>
     <a href="#" onclick="showPage('home', this)" class="active">Home</a>
     <a href="#" onclick="showPage('project', this)">Project</a>
+    <a href="#" onclick="showPage('loyalty', this)">Loyalty</a>
     <a href="#" onclick="showPage('buy', this)">Buy</a>
     <a href="#" onclick="showPage('contact', this)">Contact</a>
     <a href="#" onclick="showPage('games', this)" class="nav-icon" title="KR Mini games">🎮</a>
@@ -600,6 +614,25 @@ p{
 
 </div>
 
+<!-- LOYALTY -->
+
+<div id="loyalty" class="page">
+
+    <div class="loyalty-card">
+        <div class="loyalty-icon">★</div>
+        <h2>Loyalty</h2>
+        <p class="loyalty-text">
+            Your browser has recorded the following number of completed purchases.
+            This is your loyalty score for unlocking future surprises.
+        </p>
+        <div class="loyalty-score" id="loyaltyScore">0 purchases</div>
+        <p class="loyalty-note">
+            Stay loyal and come back often — more rewards are being added.
+        </p>
+    </div>
+
+</div>
+
 <!-- GAMES -->
 
 <div id="games" class="page">
@@ -609,6 +642,10 @@ p{
     <p>
         Choose a fun mini-game from the list below. More games are coming soon!
     </p>
+
+    <div class="purchase-summary" id="purchaseSummaryGames">
+        No successful purchases recorded in this browser yet.
+    </div>
 
     <div class="game-list">
         <div class="game-card" onclick="launchGame()">
@@ -651,6 +688,10 @@ p{
     <p>
         Secure checkout and purchasing support for King Royalty Eggs.
     </p>
+
+    <div class="purchase-summary" id="purchaseSummaryBuy">
+        Successful purchases recorded: 0
+    </div>
 
     <div class="buy-box">
 
@@ -746,6 +787,44 @@ function showPage(id, el){
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 }
 
+const PURCHASE_COUNT_KEY = 'krPurchaseCount';
+
+function getPurchaseCount(){
+    return parseInt(localStorage.getItem(PURCHASE_COUNT_KEY) || '0', 10);
+}
+
+// Call this after Stripe reports a successful payment to track purchases locally.
+function recordSuccessfulPurchase(){
+    const count = getPurchaseCount() + 1;
+    localStorage.setItem(PURCHASE_COUNT_KEY, count);
+    updatePurchaseDisplays();
+}
+
+function updatePurchaseDisplays(){
+    const count = getPurchaseCount();
+    const gamesSummary = document.getElementById('purchaseSummaryGames');
+    const buySummary = document.getElementById('purchaseSummaryBuy');
+
+    if(gamesSummary){
+        gamesSummary.textContent = count > 0
+            ? `Successful purchases recorded: ${count}`
+            : 'No successful purchases recorded in this browser yet.';
+    }
+
+    if(buySummary){
+        buySummary.textContent = count > 0
+            ? `Successful purchases recorded: ${count}`
+            : 'Successful purchases recorded: 0';
+    }
+    const loyaltyScore = document.getElementById('loyaltyScore');
+    if(loyaltyScore){
+        loyaltyScore.textContent = count === 1 ? '1 purchase' : `${count} purchases`;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', updatePurchaseDisplays);
+window.addEventListener('pageshow', updatePurchaseDisplays);
+
 let gameInterval = null;
 let spawnInterval = null;
 let gameState = {
@@ -774,7 +853,9 @@ function closeGame(){
         screen.classList.remove('active');
     }
     document.querySelector('.game-list').style.display = 'flex';
-    stopGame();    document.getElementById('gameAudio').pause();}
+    stopGame();
+    document.getElementById('gameAudio').pause();
+}
 
 function resetGame(){
     stopGame();
