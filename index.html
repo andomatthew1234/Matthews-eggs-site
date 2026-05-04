@@ -266,6 +266,138 @@ p{
     border:1px solid rgba(255,255,255,0.12);
 }
 
+/* LOYALTY DASHBOARD STYLES */
+
+.loyalty-container {
+    width: 100%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 30px;
+    padding: 3rem 2rem;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    margin-top: 2rem;
+}
+
+.status-badge-top {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 0.5rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    border: 1px solid gold;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    color: gold;
+}
+
+.loyalty-badge {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #ffd700, #ffae00);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    color: #000;
+}
+
+.loyalty-score-big {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    color: #ffd700;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.loyalty-rank-label {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+.loyalty-progress-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto;
+    text-align: left;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ffd700, #fff);
+    border-radius: 6px;
+    transition: width 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+#loyaltyMessage {
+    background: rgba(0,0,0,0.3);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.perks-list {
+    display: none;
+    text-align: left;
+    margin-top: 2rem;
+    background: rgba(255,255,255,0.03);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.perks-list.active {
+    display: block;
+}
+
+.perk-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.perk-item:last-child {
+    border-bottom: none;
+}
+
+.loyalty-footer-note {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 2rem;
+    font-style: italic;
+}
+
+/* END LOYALTY STYLES */
+
 .purchase-summary{
     margin-top:1.2rem;
     background:rgba(255,255,255,0.08);
@@ -618,16 +750,43 @@ p{
 
 <div id="loyalty" class="page">
 
-    <div class="loyalty-card">
-        <div class="loyalty-icon">★</div>
-        <h2>Loyalty</h2>
-        <p class="loyalty-text">
-            Your browser has recorded the following number of completed purchases.
-            This is your loyalty score for unlocking future surprises.
+    <h2>Loyalty Dashboard</h2>
+    <p>Your support helps us keep the chickens happy and healthy.</p>
+
+    <div class="loyalty-container">
+        <div class="status-badge-top" id="statusBadgeTop">👋 Visitor</div>
+        
+        <div class="loyalty-badge">★</div>
+        <div class="loyalty-score-big" id="loyaltyScoreBig">0</div>
+        <div class="loyalty-rank-label">Total Purchases</div>
+
+        <p id="loyaltyMessage">
+            Thanks for visiting our website! If you like the look of our eggs, make a purchase and it'll show up here. As long as you stay on the same browser, your loyalty will update with each purchase. Good luck!
         </p>
-        <div class="loyalty-score" id="loyaltyScore">0 purchases</div>
-        <p class="loyalty-note">
-            Stay loyal and come back often — more rewards are being added.
+
+        <div class="loyalty-progress-wrapper">
+            <div class="progress-header">
+                <span id="nextRankName">Next Level: Try-outer</span>
+                <span id="progressText">0 / 1</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <button class="btn" style="margin-top: 1rem;" onclick="togglePerks()">View Status Tiers</button>
+
+        <div class="perks-list" id="perksList">
+            <h3>Status Levels</h3>
+            <div class="perk-item"><span>👋 Visitor</span> <span>0 purchases</span></div>
+            <div class="perk-item"><span>💰 Try-outer</span> <span>1-4 purchases</span></div>
+            <div class="perk-item"><span>🥚 Loyal customer</span> <span>5-10 purchases</span></div>
+            <div class="perk-item"><span>📗 Silver level</span> <span>11-15 purchases</span></div>
+            <div class="perk-item"><span>📘 Gold level</span> <span>16+ purchases</span></div>
+        </div>
+
+        <p class="loyalty-footer-note">
+            Loyalty data is stored securely in your local browser.
         </p>
     </div>
 
@@ -787,13 +946,16 @@ function showPage(id, el){
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 }
 
+function togglePerks() {
+    document.getElementById('perksList').classList.toggle('active');
+}
+
 const PURCHASE_COUNT_KEY = 'krPurchaseCount';
 
 function getPurchaseCount(){
     return parseInt(localStorage.getItem(PURCHASE_COUNT_KEY) || '0', 10);
 }
 
-// Call this after Stripe reports a successful payment to track purchases locally.
 function recordSuccessfulPurchase(){
     const count = getPurchaseCount() + 1;
     localStorage.setItem(PURCHASE_COUNT_KEY, count);
@@ -816,9 +978,59 @@ function updatePurchaseDisplays(){
             ? `Successful purchases recorded: ${count}`
             : 'Successful purchases recorded: 0';
     }
-    const loyaltyScore = document.getElementById('loyaltyScore');
-    if(loyaltyScore){
-        loyaltyScore.textContent = count === 1 ? '1 purchase' : `${count} purchases`;
+
+    // Dashboard Updates
+    const statusBadge = document.getElementById('statusBadgeTop');
+    const scoreBig = document.getElementById('loyaltyScoreBig');
+    const loyaltyMsg = document.getElementById('loyaltyMessage');
+    const nextRankName = document.getElementById('nextRankName');
+    const progressText = document.getElementById('progressText');
+    const progressBar = document.getElementById('progressBar');
+
+    if(scoreBig) scoreBig.textContent = count;
+
+    let status = "👋 Visitor";
+    let message = "Thanks for visiting our website! If you like the look of our eggs, make a purchase and it'll show up here. As long as you stay on the same browser, your loyalty will update with each purchase. Good luck!";
+    let nextLevel = "Try-outer";
+    let milestone = 1;
+    let prevMilestone = 0;
+
+    if (count >= 16) {
+        status = "📘 Gold level";
+        message = "Legend status. Part of the family. Well done.";
+        nextLevel = "Max Level Reached";
+        milestone = count; 
+        prevMilestone = 0;
+    } else if (count >= 11) {
+        status = "📗 Silver level";
+        message = "Now your getting into it. Silver! You've come a long way, traveler.";
+        nextLevel = "Gold level";
+        milestone = 16;
+        prevMilestone = 11;
+    } else if (count >= 5) {
+        status = "🥚 Loyal customer";
+        message = "Now you've done more then 5 purchases, you're part of the King Royalty family!";
+        nextLevel = "Silver level";
+        milestone = 11;
+        prevMilestone = 5;
+    } else if (count >= 1) {
+        status = "💰 Try-outer";
+        message = "Thanks! You've successfully bought some eggs, and you've levelled up to try-outer. If you loved them, you can keep going to see what you can unlock!";
+        nextLevel = "Loyal customer";
+        milestone = 5;
+        prevMilestone = 1;
+    }
+
+    if(statusBadge) statusBadge.textContent = status;
+    if(loyaltyMsg) loyaltyMsg.textContent = message;
+    if(nextRankName) nextRankName.textContent = `Next Level: ${nextLevel}`;
+    
+    // Progress Bar Calculation
+    if(progressText) progressText.textContent = `${count} / ${milestone}`;
+    if(progressBar) {
+        let percent = (count / milestone) * 100;
+        if (count >= 16) percent = 100;
+        progressBar.style.width = percent + '%';
     }
 }
 
