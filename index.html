@@ -211,9 +211,10 @@ p{
     margin-bottom:1rem;
 }
 
-.stripe-card-action{
-    margin-top:1.5rem;
-    text-align:center;
+.card-price{
+    font-size:2rem;
+    font-weight:700;
+    margin:1rem 0;
 }
 
 /* BUY BOX */
@@ -885,13 +886,8 @@ p{
                 <p>
                     Make your secure purchase to buy eggs with Stripe.
                 </p>
-                <div class="stripe-card-action">
-                    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-                    <stripe-buy-button
-                        buy-button-id="buy_btn_1Rz3foKPvBM0Ul88HqNgZdRe"
-                        publishable-key="pk_live_51MSul8KPvBM0Ul88ZgBQE2YyK1mUPFgZ4H42nR8TG9NJn1PbX1eJpI28Or0nlEl7aRctpho9Ps1vkVt0uKjkzgMk00HSYd76FY">
-                    </stripe-buy-button>
-                </div>
+                <div class="card-price">$8</div>
+                <a class="btn" href="https://buy.stripe.com/14AfZicc8crH2ry52253O0c" target="_self">Buy now</a>
             </div>
 
             <div class="card">
@@ -1264,6 +1260,8 @@ function endGame(title, message){
 }
 
 </script>
+
+
 
 </body>
 </html>
