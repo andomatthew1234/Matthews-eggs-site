@@ -1,4 +1,11 @@
 const PURCHASE_COUNT_KEY = 'krPurchaseCount';
+const REDEEM_STORAGE_KEY = 'krRedeemedRewards';
+const REDEEMABLE_REWARDS = [
+    { id: 'redeem10', title: '10% off coupon', cost: 3, code: 'REDEEM-KR-REWARDS-10', description: 'Spend 3 purchases to get 10% off.' },
+    { id: 'freeDozen', title: 'Free Dozen', cost: 7, code: 'KRREWARD-FDA8', description: 'Spend 7 purchases to receive a free dozen with one dozen purchase.' },
+    { id: 'thirtyOff', title: '30% off (min $16)', cost: 5, code: 'KR-30-FJSJWI', description: 'Spend 5 purchases to get 30% off with a minimum $16 order.' },
+    { id: 'firstTime', title: 'First Time Order 10% off', cost: 1, code: 'FIRST-TIME-KR-EIWS', description: 'First time order reward. Available once only.' }
+];
 let gameInterval = null;
 let spawnInterval = null;
 let gameState = {
@@ -121,11 +128,140 @@ function updatePurchaseDisplays() {
         }
         progressBar.style.width = `${Math.min(100, percent)}%`;
     }
+    if (typeof updateRedeemDisplay === 'function') {
+        updateRedeemDisplay();
+    }
+}
+
+function getRedeemedRewards() {
+    try {
+        return JSON.parse(localStorage.getItem(REDEEM_STORAGE_KEY) || '[]');
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveRedeemedRewards(rewards) {
+    localStorage.setItem(REDEEM_STORAGE_KEY, JSON.stringify(rewards));
+}
+
+function getRedeemedReward(id) {
+    return getRedeemedRewards().find(reward => reward.id === id);
+}
+
+function showLoyaltyTab(tab) {
+    document.getElementById('levelsTab').classList.toggle('active', tab === 'levels');
+    document.getElementById('redeemTab').classList.toggle('active', tab === 'redeem');
+    document.getElementById('loyaltyLevelsView').classList.toggle('hidden', tab !== 'levels');
+    document.getElementById('loyaltyRedeemView').classList.toggle('hidden', tab !== 'redeem');
+    if (tab === 'redeem') {
+        updateRedeemDisplay();
+    }
+}
+
+function updateRedeemDisplay() {
+    const balanceElement = document.getElementById('redeemBalance');
+    if (balanceElement) {
+        balanceElement.textContent = getPurchaseCount();
+    }
+
+    const listElement = document.getElementById('redeemList');
+    if (!listElement) {
+        return;
+    }
+
+    const redeemedRewards = getRedeemedRewards();
+    const currentCount = getPurchaseCount();
+
+    listElement.innerHTML = REDEEMABLE_REWARDS.map(reward => {
+        const redeemed = redeemedRewards.find(r => r.id === reward.id);
+        const isSelected = !!redeemed;
+        const isViewed = isSelected && redeemed.viewed;
+        const buttonText = isSelected ? (isViewed ? 'Redeemed' : 'View coupon') : `Redeem ${reward.cost} purchases`;
+        const disabled = isSelected ? isViewed : currentCount < reward.cost;
+        return `
+            <div class="redeem-card">
+                <h3>${reward.title}</h3>
+                <p>${reward.description}</p>
+                <div class="redeem-cost">Cost: ${reward.cost}</div>
+                <button class="btn" ${disabled ? 'disabled' : ''} onclick="handleRedeemReward('${reward.id}')">${buttonText}</button>
+                ${isSelected ? `<span class="redeem-status">${isViewed ? 'Redeemed' : 'Pending view'}</span>` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+function handleRedeemReward(id) {
+    const reward = REDEEMABLE_REWARDS.find(r => r.id === id);
+    if (!reward) {
+        return;
+    }
+
+    const existing = getRedeemedReward(id);
+    if (existing) {
+        showRedeemCoupon(existing);
+        return;
+    }
+
+    const currentCount = getPurchaseCount();
+    if (currentCount < reward.cost) {
+        alert('You do not have enough purchase balance to redeem this reward.');
+        return;
+    }
+
+    const updatedCount = currentCount - reward.cost;
+    localStorage.setItem(PURCHASE_COUNT_KEY, updatedCount);
+
+    const newReward = {
+        id: reward.id,
+        title: reward.title,
+        code: reward.code,
+        viewed: false,
+        redeemedAt: Date.now()
+    };
+
+    const redeemedRewards = getRedeemedRewards();
+    redeemedRewards.push(newReward);
+    saveRedeemedRewards(redeemedRewards);
+    updatePurchaseDisplays();
+    showRedeemCoupon(newReward);
+}
+
+function showRedeemCoupon(reward) {
+    const couponArea = document.getElementById('redeemCouponArea');
+    const couponText = document.getElementById('redeemCouponText');
+    if (!couponArea || !couponText) {
+        return;
+    }
+
+    if (reward.viewed) {
+        couponText.textContent = 'This coupon code has already been viewed and cannot be shown again.';
+    } else {
+        couponText.textContent = reward.code;
+        const redeemedRewards = getRedeemedRewards();
+        const index = redeemedRewards.findIndex(r => r.id === reward.id);
+        if (index >= 0) {
+            redeemedRewards[index].viewed = true;
+            saveRedeemedRewards(redeemedRewards);
+        }
+    }
+
+    couponArea.classList.remove('hidden');
+    if (typeof updateRedeemDisplay === 'function') {
+        updateRedeemDisplay();
+    }
+}
+
+function getRedeemBalance() {
+    return getPurchaseCount();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     setActiveNav();
     updatePurchaseDisplays();
+    if (document.body.dataset.page === 'loyalty') {
+        showLoyaltyTab('levels');
+    }
     if (document.body.dataset.page === 'games') {
         closeGame();
     }

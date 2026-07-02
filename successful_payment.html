@@ -39,19 +39,28 @@
 </div>
 <script>
     const PURCHASE_COUNT_KEY = 'krPurchaseCount';
-    const SUCCESS_SESSION_KEY = 'krSuccessfulPaymentRecorded';
 
     function getPurchaseCount(){
         return parseInt(localStorage.getItem(PURCHASE_COUNT_KEY) || '0', 10);
     }
 
+    function isReload(){
+        const navEntries = performance.getEntriesByType('navigation');
+        if(navEntries && navEntries.length){
+            return navEntries[0].type === 'reload';
+        }
+        if(performance.navigation){
+            return performance.navigation.type === performance.navigation.TYPE_RELOAD;
+        }
+        return false;
+    }
+
     function recordPurchase(){
-        if(sessionStorage.getItem(SUCCESS_SESSION_KEY) === 'true'){
+        if(isReload()){
             return false;
         }
         const count = getPurchaseCount() + 1;
         localStorage.setItem(PURCHASE_COUNT_KEY, count);
-        sessionStorage.setItem(SUCCESS_SESSION_KEY, 'true');
         return true;
     }
 

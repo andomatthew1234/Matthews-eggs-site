@@ -22,29 +22,48 @@
     <h2>Loyalty Dashboard</h2>
     <p>Your support helps us keep the chickens happy and healthy.</p>
     <div class="loyalty-container">
-        <div class="status-badge-top" id="statusBadgeTop">👋 Visitor</div>
-        <div class="loyalty-badge">★</div>
-        <div class="loyalty-score-big" id="loyaltyScoreBig">0</div>
-        <div class="loyalty-rank-label">Total Purchases</div>
-        <p id="loyaltyMessage">Thanks for visiting our website! If you like the look of our eggs, make a purchase and it'll show up here. As long as you stay on the same browser, your loyalty will update with each purchase. Good luck!</p>
-        <div class="loyalty-progress-wrapper">
-            <div class="progress-header">
-                <span id="nextRankName">Next Level: Try-outer</span>
-                <span id="progressText">0 / 1</span>
+        <div class="loyalty-tab-nav">
+            <button class="loyalty-tab active" id="levelsTab" onclick="showLoyaltyTab('levels')">Levels</button>
+            <button class="loyalty-tab" id="redeemTab" onclick="showLoyaltyTab('redeem')">Redeem Rewards</button>
+        </div>
+
+        <div id="loyaltyLevelsView">
+            <div class="status-badge-top" id="statusBadgeTop">👋 Visitor</div>
+            <div class="loyalty-badge">★</div>
+            <div class="loyalty-score-big" id="loyaltyScoreBig">0</div>
+            <div class="loyalty-rank-label">Total Purchases</div>
+            <p id="loyaltyMessage">Thanks for visiting our website! If you like the look of our eggs, make a purchase and it'll show up here. As long as you stay on the same browser, your loyalty will update with each purchase. Good luck!</p>
+            <div class="loyalty-progress-wrapper">
+                <div class="progress-header">
+                    <span id="nextRankName">Next Level: Try-outer</span>
+                    <span id="progressText">0 / 1</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
             </div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressBar"></div>
+            <button class="btn" style="margin-top: 1rem;" onclick="togglePerks()">View Status Tiers</button>
+            <div class="perks-list" id="perksList">
+                <h3>Status Levels</h3>
+                <div class="perk-item"><span>👋 Visitor</span> <span>0 purchases</span></div>
+                <div class="perk-item"><span>💰 Try-outer</span> <span>1-4 purchases</span></div>
+                <div class="perk-item"><span>🥚 Loyal customer</span> <span>5-10 purchases</span></div>
+                <div class="perk-item"><span>📗 Silver level</span> <span>11-15 purchases</span></div>
+                <div class="perk-item"><span>📘 Gold level</span> <span>16+ purchases</span></div>
             </div>
         </div>
-        <button class="btn" style="margin-top: 1rem;" onclick="togglePerks()">View Status Tiers</button>
-        <div class="perks-list" id="perksList">
-            <h3>Status Levels</h3>
-            <div class="perk-item"><span>👋 Visitor</span> <span>0 purchases</span></div>
-            <div class="perk-item"><span>💰 Try-outer</span> <span>1-4 purchases</span></div>
-            <div class="perk-item"><span>🥚 Loyal customer</span> <span>5-10 purchases</span></div>
-            <div class="perk-item"><span>📗 Silver level</span> <span>11-15 purchases</span></div>
-            <div class="perk-item"><span>📘 Gold level</span> <span>16+ purchases</span></div>
+
+        <div id="loyaltyRedeemView" class="hidden">
+            <div class="redeem-summary">Purchase balance: <strong id="redeemBalance">0</strong></div>
+            <p class="redeem-instructions">Spend your purchase count to claim coupon rewards. Each reward can only be redeemed once, and the coupon code can only be viewed once.</p>
+            <div class="redeem-list" id="redeemList"></div>
+            <div class="redeem-coupon hidden" id="redeemCouponArea">
+                <h3>Reward code</h3>
+                <p id="redeemCouponText"></p>
+                <p class="redeem-note">This code can only be viewed once.</p>
+            </div>
         </div>
+
         <p class="loyalty-footer-note">Loyalty data is stored securely in your local browser.</p>
     </div>
 </div>
