@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Royalty Eggs • Loyalty</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="loyalty">
+<div class="overlay"></div>
+<nav>
+    <a href="index.html" data-page="home">Home</a>
+    <a href="project.html" data-page="project">Project</a>
+    <a href="loyalty.html" data-page="loyalty">Loyalty</a>
+    <a href="buy.html" data-page="buy">Buy</a>
+    <a href="contact.html" data-page="contact">Contact</a>
+    <a href="games.html" data-page="games" class="nav-icon" title="KR Mini games">🎮</a>
+</nav>
+<div class="page">
+    <h2>Loyalty Dashboard</h2>
+    <p>Your support helps us keep the chickens happy and healthy.</p>
+    <div class="loyalty-container">
+        <div class="status-badge-top" id="statusBadgeTop">👋 Visitor</div>
+        <div class="loyalty-badge">★</div>
+        <div class="loyalty-score-big" id="loyaltyScoreBig">0</div>
+        <div class="loyalty-rank-label">Total Purchases</div>
+        <p id="loyaltyMessage">Thanks for visiting our website! If you like the look of our eggs, make a purchase and it'll show up here. As long as you stay on the same browser, your loyalty will update with each purchase. Good luck!</p>
+        <div class="loyalty-progress-wrapper">
+            <div class="progress-header">
+                <span id="nextRankName">Next Level: Try-outer</span>
+                <span id="progressText">0 / 1</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+        <button class="btn" style="margin-top: 1rem;" onclick="togglePerks()">View Status Tiers</button>
+        <div class="perks-list" id="perksList">
+            <h3>Status Levels</h3>
+            <div class="perk-item"><span>👋 Visitor</span> <span>0 purchases</span></div>
+            <div class="perk-item"><span>💰 Try-outer</span> <span>1-4 purchases</span></div>
+            <div class="perk-item"><span>🥚 Loyal customer</span> <span>5-10 purchases</span></div>
+            <div class="perk-item"><span>📗 Silver level</span> <span>11-15 purchases</span></div>
+            <div class="perk-item"><span>📘 Gold level</span> <span>16+ purchases</span></div>
+        </div>
+        <p class="loyalty-footer-note">Loyalty data is stored securely in your local browser.</p>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

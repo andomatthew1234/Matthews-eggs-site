@@ -1,5 +1,0 @@
-git status
-git add index.html
-git commit -m "type description here"
-git pull --rebase
-git push 

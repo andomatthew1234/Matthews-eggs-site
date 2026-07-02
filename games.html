@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Royalty Eggs • Games</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="games">
+<div class="overlay"></div>
+<nav>
+    <a href="index.html" data-page="home">Home</a>
+    <a href="project.html" data-page="project">Project</a>
+    <a href="loyalty.html" data-page="loyalty">Loyalty</a>
+    <a href="buy.html" data-page="buy">Buy</a>
+    <a href="contact.html" data-page="contact">Contact</a>
+    <a href="games.html" data-page="games" class="nav-icon" title="KR Mini games">🎮</a>
+</nav>
+<div class="page">
+    <h2>KR Mini games</h2>
+    <p>Choose a fun mini-game from the list below. More games are coming soon!</p>
+    <div class="purchase-summary" id="purchaseSummaryGames">No successful purchases recorded in this browser yet.</div>
+    <div class="game-list">
+        <div class="game-card" onclick="launchGame()">
+            <h3>Chicken Dash</h3>
+            <p>Dash along the coop, catch eggs, and avoid falling rocks. Click to launch the first King Royalty mini game.</p>
+            <span>Play Chicken Dash</span>
+        </div>
+        <div id="lockedGameCard" class="game-card locked" onclick="launchSecretGame()">
+            <h3>👑 Royal Coop Escape</h3>
+            <p id="secretGameDesc">Locked: Reach 'Try-outer' status (1 purchase) to unlock this exclusive game!</p>
+            <span id="secretGameBtn">Unlock at 1 Purchase</span>
+        </div>
+    </div>
+    <div class="game-screen" id="chickenDashScreen">
+        <button class="back-icon" onclick="closeGame()">← Back to games</button>
+        <div class="game-area">
+            <div class="game-board" id="gameBoard">
+                <div class="player" id="player"></div>
+                <div class="game-message" id="gameMessage">
+                    <strong id="gameResultTitle">Ready to Play!</strong>
+                    <p id="gameResultText">Use arrow keys or WASD to move and catch eggs.</p>
+                    <button id="gameActionButton" onclick="startGame()">Start</button>
+                </div>
+            </div>
+        </div>
+        <audio id="gameAudio" src="img/audio/dash.mp3" loop></audio>
+        <div class="game-footer">
+            <span>Score: <strong id="dashScore">0</strong></span>
+            <span>Missed: <strong id="dashMissed">0</strong></span>
+        </div>
+    </div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>
