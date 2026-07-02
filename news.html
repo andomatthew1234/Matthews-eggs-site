@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Royalty Eggs • News</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/news.css">
+</head>
+<body data-page="news">
+<div class="overlay"></div>
+<nav>
+    <a href="index.html" data-page="home">Home</a>
+    <a href="news.html" data-page="news">News</a>
+    <a href="project.html" data-page="project">Project</a>
+    <a href="loyalty.html" data-page="loyalty">Loyalty</a>
+    <a href="buy.html" data-page="buy">Buy</a>
+    <a href="contact.html" data-page="contact">Contact</a>
+    <a href="games.html" data-page="games" class="nav-icon" title="KR Mini games">🎮</a>
+</nav>
+<div class="page">
+    <h2>News</h2>
+    <div id="newsPosts" class="news-posts"></div>
+    <section id="newsDetail" class="news-detail hidden">
+        <div class="news-detail-inner">
+            <div class="news-detail-header">
+                <div>
+                    <span id="newsDetailDate" class="news-detail-date"></span>
+                    <h3 id="newsDetailTitle"></h3>
+                </div>
+                <button class="btn btn-small" onclick="closeNewsDetail()">Close</button>
+            </div>
+            <p id="newsDetailSummary" class="news-detail-summary"></p>
+            <div id="newsDetailBody" class="news-detail-body"></div>
+            <div id="newsDetailHighlights" class="news-detail-section"></div>
+            <div id="newsDetailNote" class="news-detail-note"></div>
+            <div id="newsDetailHowRedeem" class="news-detail-section"></div>
+            <div id="newsDetailFooter" class="news-detail-footer"></div>
+        </div>
+    </section>
+</div>
+<script>
+let newsPosts = [];
+
+function createList(items) {
+    if (!items || !items.length) return '';
+    return `
+        <div class="news-detail-subsection">
+            <ul>
+                ${items.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+}
+
+function showNewsPost(id) {
+    const post = newsPosts.find(item => item.id === id);
+    if (!post) return;
+
+    document.querySelectorAll('.news-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.postId === id);
+    });
+
+    document.getElementById('newsDetailDate').textContent = post.date;
+    document.getElementById('newsDetailTitle').textContent = post.title;
+    document.getElementById('newsDetailSummary').textContent = post.summary;
+    document.getElementById('newsDetailBody').innerHTML = post.body.map(paragraph => `<p>${paragraph}</p>`).join('');
+    document.getElementById('newsDetailHighlights').innerHTML = post.highlights && post.highlights.length
+        ? `<h4>Highlights</h4>${createList(post.highlights)}`
+        : '';
+    document.getElementById('newsDetailNote').innerHTML = post.note ? `<p class="news-detail-note-text">${post.note}</p>` : '';
+    document.getElementById('newsDetailHowRedeem').innerHTML = `
+        <h4>How to redeem</h4>
+        ${createList(post.howToRedeem)}
+    `;
+    document.getElementById('newsDetailFooter').innerHTML = post.footer ? `<p>${post.footer.replace(/\n/g, '<br>')}</p>` : '';
+    document.getElementById('newsDetail').classList.remove('hidden');
+}
+
+function closeNewsDetail() {
+    document.getElementById('newsDetail').classList.add('hidden');
+    document.querySelectorAll('.news-card').forEach(card => card.classList.remove('selected'));
+}
+
+async function loadNewsPosts() {
+    try {
+        const response = await fetch('posts/news.json');
+        newsPosts = await response.json();
+        const container = document.getElementById('newsPosts');
+        if (!container || !Array.isArray(newsPosts)) return;
+
+        container.innerHTML = newsPosts.map(post => `
+            <article class="news-card" data-post-id="${post.id}" onclick="showNewsPost('${post.id}')">
+                <div class="news-card-top">
+                    <h3>${post.title}</h3>
+                    <span class="news-card-date">${post.date}</span>
+                </div>
+                <p class="news-card-description">${post.summary}</p>
+                <div class="news-card-footer">Tap to read more</div>
+            </article>
+        `).join('');
+
+        if (newsPosts.length) {
+            showNewsPost(newsPosts[0].id);
+        }
+    } catch (error) {
+        console.error('Failed to load news posts:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadNewsPosts);
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>

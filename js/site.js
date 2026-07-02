@@ -29,6 +29,40 @@ function setActiveNav() {
     });
 }
 
+function loadLatestNewsOnHome() {
+    if (document.body.dataset.page !== 'home') {
+        return;
+    }
+
+    const banner = document.getElementById('latestNewsBanner');
+    const titleEl = document.getElementById('latestNewsTitle');
+    const noticeEl = document.getElementById('latestNewsNotice');
+    const button = document.querySelector('.latest-news-btn');
+
+    if (!banner || !titleEl || !noticeEl || !button) {
+        return;
+    }
+
+    fetch('posts/news.json')
+        .then(response => response.json())
+        .then(posts => {
+            if (!Array.isArray(posts) || posts.length === 0) {
+                titleEl.textContent = 'No news available yet.';
+                noticeEl.textContent = 'Check back soon for the latest update.';
+                return;
+            }
+            const latest = posts.slice().sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+            titleEl.textContent = latest.title || 'Latest announcement available';
+            noticeEl.textContent = latest.summary || 'Read the newest story on the News page.';
+            button.href = 'news.html';
+        })
+        .catch(() => {
+            titleEl.textContent = 'News unavailable';
+            noticeEl.textContent = 'There was a problem loading the latest announcement.';
+            banner.style.opacity = '0.9';
+        });
+}
+
 function togglePerks() {
     const perksList = document.getElementById('perksList');
     if (perksList) {
@@ -259,6 +293,7 @@ function getRedeemBalance() {
 document.addEventListener('DOMContentLoaded', () => {
     setActiveNav();
     updatePurchaseDisplays();
+    loadLatestNewsOnHome();
     if (document.body.dataset.page === 'loyalty') {
         showLoyaltyTab('levels');
     }
